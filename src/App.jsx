@@ -11,7 +11,13 @@ const App = () => {
 
   return (
     <>
-      <Content win={win} setWin={setWin} secretNumber={secretNumber} />;
+      <Content
+        win={win}
+        setWin={setWin}
+        secretNumber={secretNumber}
+        makeSecretNum={makeSecretNum}
+      />
+      ;
       {win ? (
         <>
           <div className="firework"></div>

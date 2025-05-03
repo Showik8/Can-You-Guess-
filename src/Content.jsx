@@ -2,19 +2,26 @@ import { useEffect, useRef, useState } from "react";
 
 import "./App.css";
 
-export const Content = ({ win, setWin, secretNumber }) => {
-  const [textOfGuess, setTextOfGUess] = useState("What's hidden there?");
-  const [hint, setHint] = useState(null);
-  const [haveTry, setHaveTry] = useState(true);
-  const [tryAmount, setTryAmount] = useState(10);
-  const [loading, setLoading] = useState(false);
+export const Content = ({ win, setWin, secretNumber, makeSecretNum }) => {
+  const [gameState, setGameState] = useState({
+    textOfGuess: "What's hidden there?",
+    hint: null,
+    haveTry: true,
+    tryAmount: 10,
+    loading: false,
+  });
+
+  console.log(secretNumber);
 
   const inputRef = useRef();
   let inputValue = inputRef.current?.value;
 
-  if (loading) {
+  if (gameState.loading) {
     setTimeout(() => {
-      setLoading(false);
+      setGameState((prev) => ({
+        ...prev,
+        loading: false,
+      }));
     }, 3000);
   }
 
@@ -24,59 +31,79 @@ export const Content = ({ win, setWin, secretNumber }) => {
 
   function checkINP() {
     if (secretNumber == inputValue) {
-      setTextOfGUess("Congratulation You Win 🥳🥳🥳 ");
-      setWin(true);
-      setHint(null);
-      setHaveTry(false);
+      setGameState((prev) => ({
+        ...prev,
+        textOfGuess: "Congratulation You Win 🥳🥳🥳 ",
+        hint: null,
+        haveTry: false,
+      }));
     }
 
     if (inputValue > secretNumber && !win) {
-      setHint(`The number you entered is higher than my Secret Number.`);
+      setGameState((pre) => ({
+        ...pre,
+        hint: "The number you entered is higher than my Secret Number.",
+      }));
     } else if (inputValue < secretNumber && !win) {
-      setHint(`The number you entered is less than my Secret Number.`);
+      setGameState((pre) => ({
+        ...pre,
+        hint: "The number you entered is less than my Secret Number.",
+      }));
     }
   }
 
   function restart() {
     inputValue = null;
-    setTextOfGUess("What's hidden there?");
-    setHint(null);
-    setTryAmount(10);
-    setHaveTry(true);
-    setLoading(true);
     setWin(false);
+    setGameState((pre) => ({
+      ...pre,
+      textOfGuess: "What's hidden there?",
+      hint: null,
+      tryAmount: 10,
+      haveTry: true,
+      loading: true,
+    }));
     secretNumber = makeSecretNum(Math.random());
   }
 
   function submit() {
-    setTryAmount((pre) => pre - 1);
+    setGameState((pre) => ({
+      ...pre,
+      tryAmount: pre.tryAmount - 1,
+    }));
 
     if (win) {
-      setHaveTry(false);
+      setGameState((pre) => ({
+        ...pre,
+        haveTry: false,
+      }));
     }
 
-    if (tryAmount <= 1) {
-      setHaveTry(false);
-      setTextOfGUess("You lose 🥺");
+    if (gameState.tryAmount <= 1) {
+      setGameState((pre) => ({
+        ...pre,
+        haveTry: false,
+        textOfGuess: "You lose 🥺",
+      }));
     }
   }
 
   return (
     <>
-      {loading ? (
+      {gameState.loading ? (
         <div className="loadingWrapper">
           <div className="loader"></div>
           <span className="Thinking">I'm Thinking 🤔</span>
         </div>
       ) : (
         <div className="content">
-          <h1>{textOfGuess}</h1>
+          <h1>{gameState.textOfGuess}</h1>
 
           {!win ? (
             <h2>
               Number is between 0 to 20
               <br />
-              {`you have ${tryAmount} try`}
+              {`you have ${gameState.tryAmount} try`}
             </h2>
           ) : (
             <h2>Number Was {secretNumber}</h2>
@@ -88,10 +115,10 @@ export const Content = ({ win, setWin, secretNumber }) => {
             ref={inputRef}
           />
           <div>
-            <button onClick={haveTry ? submit : restart}>
-              {haveTry ? "Submit" : "Try Again"}
+            <button onClick={gameState.haveTry ? submit : restart}>
+              {gameState.haveTry ? "Submit" : "Try Again"}
             </button>
-            <span>{hint}</span>
+            <span>{gameState.hint}</span>
           </div>
         </div>
       )}
