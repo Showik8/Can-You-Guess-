@@ -1,12 +1,8 @@
 import { useState } from "react";
+import Content from "./content";
 import "./App.css";
-import { Content } from "./content";
 const App = () => {
   const [win, setWin] = useState(false);
-
-  // let createNew = setTimeout(() => {
-  //   secretNumber = makeSecretNum();
-  // }, 2000);
 
   return (
     <>
