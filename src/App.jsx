@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Content } from "./content";
+import Content from "./Content";
 import "./App.css";
 const App = () => {
   const [win, setWin] = useState(false);

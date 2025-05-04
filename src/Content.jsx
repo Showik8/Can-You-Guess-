@@ -7,7 +7,7 @@ function makeSecretNum(n = 0.5) {
 }
 let secretNumber = makeSecretNum();
 
-export const Content = ({ win, setWin }) => {
+const Content = ({ win, setWin }) => {
   const [gameState, setGameState] = useState({
     textOfGuess: "What's hidden there?",
     hint: null,
@@ -130,3 +130,5 @@ export const Content = ({ win, setWin }) => {
     </>
   );
 };
+
+export default Content;
