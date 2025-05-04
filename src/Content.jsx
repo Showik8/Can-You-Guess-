@@ -2,13 +2,18 @@ import { useEffect, useRef, useState } from "react";
 
 import "./App.css";
 
-export const Content = ({ win, setWin, secretNumber, makeSecretNum }) => {
+function makeSecretNum(n = 0.5) {
+  return Number((n + Math.random() * 15).toFixed());
+}
+let secretNumber = makeSecretNum();
+
+export const Content = ({ win, setWin }) => {
   const [gameState, setGameState] = useState({
     textOfGuess: "What's hidden there?",
     hint: null,
     haveTry: true,
     tryAmount: 10,
-    loading: false,
+    loading: true,
   });
 
   console.log(secretNumber);
@@ -30,7 +35,8 @@ export const Content = ({ win, setWin, secretNumber, makeSecretNum }) => {
   }, [inputValue]);
 
   function checkINP() {
-    if (secretNumber == inputValue) {
+    if (secretNumber == inputValue && inputValue != null) {
+      setWin(true);
       setGameState((prev) => ({
         ...prev,
         textOfGuess: "Congratulation You Win 🥳🥳🥳 ",
@@ -63,7 +69,8 @@ export const Content = ({ win, setWin, secretNumber, makeSecretNum }) => {
       haveTry: true,
       loading: true,
     }));
-    secretNumber = makeSecretNum(Math.random());
+    const random = Math.random();
+    secretNumber = makeSecretNum(random);
   }
 
   function submit() {
