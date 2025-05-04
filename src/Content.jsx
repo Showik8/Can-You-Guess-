@@ -16,8 +16,6 @@ export const Content = ({ win, setWin }) => {
     loading: true,
   });
 
-  console.log(secretNumber);
-
   const inputRef = useRef();
   let inputValue = inputRef.current?.value;
 
