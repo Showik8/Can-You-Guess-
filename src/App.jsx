@@ -6,7 +6,7 @@ const App = () => {
 
   return (
     <>
-      <Content win={win} setWin={setWin} />;
+      <Content win={win} setWin={setWin} />
       {win ? (
         <>
           <div className="firework"></div>
