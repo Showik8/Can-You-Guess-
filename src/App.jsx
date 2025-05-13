@@ -1,17 +1,12 @@
 import { useState } from "react";
+import Content from "./Content";
 import "./App.css";
-import { Content } from "./content";
 const App = () => {
-  function makeSecretNum(n = 0.5) {
-    return Number((n + Math.random() * 15).toFixed());
-  }
-
   const [win, setWin] = useState(false);
-  let secretNumber = makeSecretNum();
 
   return (
     <>
-      <Content win={win} setWin={setWin} secretNumber={secretNumber} />;
+      <Content win={win} setWin={setWin} />
       {win ? (
         <>
           <div className="firework"></div>
